@@ -4,9 +4,20 @@ using System.Text.RegularExpressions;
 
 namespace Pong
 {
+    /// <summary>
+    /// Konzol bemenetet rögzíti blokkolás nélkül.
+    /// </summary>
     static class Keylogger
     {
         private static bool running = false;
+        private static Queue<ConsoleKey> keys = new Queue<ConsoleKey>();
+        /// <summary>
+        /// Jelenlegi leütött konzol billentyű, vagy null;
+        /// </summary>
+        public static ConsoleKey? CurrentKey { get; set; }
+        /// <summary>
+        /// Elindítja a billentyű leütések rögzítését.
+        /// </summary>
         public static void StartLogging()
         {
             Task.Run(() =>
@@ -14,13 +25,10 @@ namespace Pong
                 while (running) keys.Enqueue(Console.ReadKey(true).Key);
             });
         }
-        public static void StopLogging()
-        {
-            running = false;
-        }
-        private static Queue<ConsoleKey> keys = new Queue<ConsoleKey>();
-
-        public static ConsoleKey? CurrentKey { get; set; }
+        /// <summary>
+        /// A CurrentKey tulajdonság értékét átállítja a következő leütött karakterre, vagy nullra, ha nincs következő.
+        /// </summary>
+        /// <returns>Volt e következő karakter?</returns>
         public static bool NextKey()
         {
             if (keys.TryDequeue(out ConsoleKey op))
@@ -34,6 +42,14 @@ namespace Pong
                 return false;
             }
         }
+        /// <summary>
+        /// Leállítja a bemenet rögzítését.
+        /// </summary>
+        public static void StopLogging()
+        {
+            running = false;
+        }
+
     }
     internal class Program
     {
