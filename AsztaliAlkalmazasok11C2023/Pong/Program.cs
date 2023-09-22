@@ -1,18 +1,172 @@
-﻿namespace Pongí
+﻿using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
+
+namespace Pong
 {
+    static class Keylogger
+    {
+        private static bool running = false;
+        public static void StartLogging()
+        {
+            Task.Run(() =>
+            {
+                while (running) keys.Enqueue(Console.ReadKey(true).Key);
+            });
+        }
+        public static void StopLogging()
+        {
+            running = false;
+        }
+        private static Queue<ConsoleKey> keys = new Queue<ConsoleKey>();
+
+        public static ConsoleKey? CurrentKey { get; set; }
+        public static bool NextKey()
+        {
+            if (keys.TryDequeue(out ConsoleKey op))
+            {
+                CurrentKey = op;
+                return true;
+            }
+            else
+            {
+                CurrentKey = null;
+                return false;
+            }
+        }
+    }
     internal class Program
     {
         static void DrawBall(int x, int y)
         {
-            if(0<=x && x< Console.WindowWidth && 0<= y && y< Console.WindowHeight)
+            if (0 <= x && x < Console.WindowWidth && 0 <= y && y < Console.WindowHeight)
             {
                 Console.SetCursorPosition(x, y);
                 Console.CursorVisible = false;
                 Console.Write('█');
             }
         }
+
+        static int playerSize = 3;
+        static char playerChar = '█';
+        static int playerEdgeDistance = 3;
+        static int playerAYPos = 3;
+        static int playerBYPos = 3;
+
+        static void Pong()
+        {
+            bool w = false;
+            bool s = false;
+            bool up = false;
+            bool down = false;
+            for (int i = 0; i < playerEdgeDistance; i++)
+            {
+                Console.SetCursorPosition(playerEdgeDistance, playerAYPos + i);
+                Console.Write(playerChar);
+                Console.SetCursorPosition(Console.WindowWidth - playerEdgeDistance, playerBYPos + i);
+                Console.Write(playerChar);
+            }
+
+            Keylogger.StartLogging();
+            while (true)
+            {
+                while (Keylogger.NextKey())
+                {
+                    switch (Keylogger.CurrentKey)
+                    {
+                        case ConsoleKey.W:
+                            w = true;
+                            s = false;
+                            break;
+                        case ConsoleKey.S:
+                            s = true;
+                            w = false;
+                            break;
+                        case ConsoleKey.UpArrow:
+                            up = true;
+                            down = false;
+                            break;
+                        case ConsoleKey.DownArrow:
+                            down = true;
+                            up = false;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                if (w)
+                {
+                    if (0 < playerAYPos)
+                    {
+                        Console.SetCursorPosition(playerEdgeDistance, playerAYPos + playerSize - 1);
+                        Console.Write(' ');
+                        playerAYPos--;
+                        Console.SetCursorPosition(playerEdgeDistance, playerAYPos);
+                        Console.Write(playerChar);
+                    }
+                }
+                else if (s)
+                {
+                    if (playerAYPos < Console.WindowHeight - playerSize)
+                    {
+                        Console.SetCursorPosition(playerEdgeDistance, playerAYPos);
+                        Console.Write(' ');
+                        playerAYPos++;
+                        Console.SetCursorPosition(playerEdgeDistance, playerAYPos + playerSize - 1);
+                        Console.Write(playerChar);
+                    }
+                }
+                if (up)
+                {
+                    if (0 < playerBYPos)
+                    {
+                        Console.SetCursorPosition(Console.WindowWidth - playerEdgeDistance, playerBYPos + playerSize - 1);
+                        Console.Write(' ');
+                        playerBYPos--;
+                        Console.SetCursorPosition(Console.WindowWidth - playerEdgeDistance, playerBYPos);
+                        Console.Write(playerChar);
+                    }
+                }
+                else if (down)
+                {
+                    if (playerBYPos < Console.WindowHeight - playerSize)
+                    {
+                        Console.SetCursorPosition(Console.WindowWidth - playerEdgeDistance, playerBYPos);
+                        Console.Write(' ');
+                        playerBYPos++;
+                        Console.SetCursorPosition(Console.WindowWidth - playerEdgeDistance, playerBYPos + playerSize - 1);
+                        Console.Write(playerChar);
+                    }
+                }
+                Console.CursorVisible = false;
+                Thread.Sleep(33);
+            }
+            
+        }
+
+
         static void Main(string[] args)
-        {//kódformázás Ctrl + K,D          
+        {
+            Pong();
+            return;
+            var q = (x: 0, y: 0);
+            List<(int x, int y)> a = new List<(int x, int y)>();
+            a.Add((2, 6)); //elem hozzáadása
+            a.RemoveAt(0); //első elem törlése
+            a.RemoveAt(a.Count - 1); //utolsó elem törlése
+            var listaElemszám = a.Count; // lista méretének lekérdezése;
+
+            Queue<(int x, int y)> sor = new Queue<(int x, int y)>();
+            sor.Enqueue((2, 3));
+            (int x, int y) kivettElem = sor.Dequeue();
+
+            (int x, int y)[] tömb = new (int x, int y)[10];
+            //tömb[0] tömb[tömb.Length-1]
+            // méret: tömb.Length
+            int[,] aa = new int[10, 5];
+            int[,,,] aaa = new int[3, 3, 3, 3];
+
+            //kódformázás Ctrl + K,D          
             char ball = '█';
             int x = 0;
             int y = 0;
@@ -20,23 +174,42 @@
             while (true)
             {
                 var c = Console.ReadKey(true).Key;
+                if (c == ConsoleKey.UpArrow)
+                {
+
+                }
+                else if (c == ConsoleKey.DownArrow)
+                {
+
+                }
+                else if (c == ConsoleKey.LeftArrow)
+                {
+
+                }
+                else if (c == ConsoleKey.RightArrow)
+                {
+
+                }
+                else
+                {
+                    //DEFAULT ÁG
+                }
                 switch (c)
                 {
                     case ConsoleKey.UpArrow:
-                        DrawBall(x, ++y);
-                        break;
                     case ConsoleKey.DownArrow:
-                        DrawBall(x, ++y);
+                        // DrawBall(x, --y);
                         break;
                     case ConsoleKey.LeftArrow:
-                        DrawBall(--x, y);
+                        //DrawBall(--x, y);
                         break;
                     case ConsoleKey.RightArrow:
-                        DrawBall(++x, y);
+                        //DrawBall(++x, y);
                         break;
                     default:
                         break;
                 }
+
             }
 
 
