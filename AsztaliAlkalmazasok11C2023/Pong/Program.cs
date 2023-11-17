@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
@@ -20,6 +21,7 @@ namespace Pong
         /// </summary>
         public static void StartLogging()
         {
+            running = true;
             Task.Run(() =>
             {
                 while (running) keys.Enqueue(Console.ReadKey(true).Key);
@@ -49,10 +51,10 @@ namespace Pong
         {
             running = false;
         }
-
     }
     internal class Program
     {
+        
         static void DrawBall(int x, int y)
         {
             if (0 <= x && x < Console.WindowWidth && 0 <= y && y < Console.WindowHeight)
@@ -71,6 +73,7 @@ namespace Pong
 
         static void Pong()
         {
+            
             bool w = false;
             bool s = false;
             bool up = false;
@@ -86,6 +89,10 @@ namespace Pong
             Keylogger.StartLogging();
             while (true)
             {
+                w = false;
+                s = false;
+                up = false;
+                down = false;
                 while (Keylogger.NextKey())
                 {
                     switch (Keylogger.CurrentKey)
@@ -154,15 +161,47 @@ namespace Pong
                         Console.Write(playerChar);
                     }
                 }
+
                 Console.CursorVisible = false;
                 Thread.Sleep(33);
             }
-            
-        }
 
+        }
+        static bool reading = true;
+        static List<ConsoleKey> keys = new List<ConsoleKey>();
+        static void Read()
+        {
+           
+        }
+        static bool up;
+        static bool down;
+        static void Pelda()
+        {
+            
+            Task t = Task.Run(() =>
+            {
+                Console.WriteLine("READING STARTED");
+                while (reading)
+                {
+                    keys.Add(Console.ReadKey(true).Key);
+                }
+            });
+            Console.CursorVisible = false;
+            while (true)
+            {
+                up = keys.Contains(ConsoleKey.UpArrow);
+                down = keys.Contains(ConsoleKey.DownArrow);
+                keys.Clear();
+                Console.Write(up + " " + down + "                           \r");
+                Thread.Sleep(60);
+            }
+            reading = false;
+        }
 
         static void Main(string[] args)
         {
+            Pelda();
+            return;
             Pong();
             return;
             var q = (x: 0, y: 0);
