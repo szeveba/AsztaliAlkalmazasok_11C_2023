@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Suranyisz", "Suranyisz\Sura
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cbradio", "..\..\cbradio\cbradio\cbradio.csproj", "{6385111C-DCB4-4E91-B7F4-F4762E01C701}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{FE7247EC-ECDB-4B7B-A811-FC5EE63BE1B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Library\Library.csproj", "{FE7247EC-ECDB-4B7B-A811-FC5EE63BE1B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CBRadio2", "CBRadio2\CBRadio2.csproj", "{3C5C1C91-F2EB-418A-B90F-AC526147CF3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CBRadio2", "CBRadio2\CBRadio2.csproj", "{3C5C1C91-F2EB-418A-B90F-AC526147CF3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFDemo", "WPFDemo\WPFDemo.csproj", "{48DD7CA2-61BC-423B-8ECC-6A2C57D8D73C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{3C5C1C91-F2EB-418A-B90F-AC526147CF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C5C1C91-F2EB-418A-B90F-AC526147CF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C5C1C91-F2EB-418A-B90F-AC526147CF3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48DD7CA2-61BC-423B-8ECC-6A2C57D8D73C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48DD7CA2-61BC-423B-8ECC-6A2C57D8D73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48DD7CA2-61BC-423B-8ECC-6A2C57D8D73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48DD7CA2-61BC-423B-8ECC-6A2C57D8D73C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
