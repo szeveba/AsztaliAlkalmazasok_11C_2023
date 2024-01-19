@@ -20,5 +20,12 @@ namespace WPFDemo
         {
             InitializeComponent();
         }
+
+        private void CreateBook_Click(object sender, RoutedEventArgs e)
+        {
+            BookEditorWindow window = new BookEditorWindow();
+            window.ShowDialog();
+            //MessageBox.Show("Kattintottál", "Kattintás", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 }
